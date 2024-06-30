@@ -10,7 +10,7 @@ import { createAsyncMessage, } from "../../slice/messageSlice";
 import { addFavorite, removeFavorite } from '../../slice/favoritesSlice';
 import Loading from "../../components/Loading";
 
-import imgBackground from "../../assets/236948485_167549795462865_3827562595937853525_n 1.png";
+import imgBackground from "../../assets/img/store.png";
 import 'react-lazy-load-image-component/src/effects/blur.css';
 function ProductDetail() {
     const [product, setProduct] = useState({});
@@ -206,7 +206,7 @@ function ProductDetail() {
                     </div>
                 </div>
                 <div >
-                    <img className="d-block mt-6 object-fit-cover mx-auto w-100 mb-7 "
+                    <img className="d-block mt-6  mx-auto w-100 mb-7 "
                         src={imgBackground} alt="" />
                 </div>
             </div>

@@ -47,17 +47,17 @@ function Favorite() {
     }
     return (
         <>
+
             <div className="container">
             <Loading isLoading={isLoading} />
 
-                <div className='row justify-content-between mt-6'>
-                    <div className="col-12">
 
                         {favorites.length === 0 ? (
                             <p>沒有收藏的商品。</p>
                         ) : (
+
                             <div className="table-responsive">
-                                <table className="table align-middle">
+                                <table className="table align-middle" style={{minWidth:"768px"}}>
                                     <thead>
                                         <tr>
                                             <th colSpan={2}>我的最愛資訊</th>
@@ -81,7 +81,6 @@ function Favorite() {
                                                                 src={product.imageUrl}
                                                                 alt={product.title}
                                                                 style={{ width: `100px`, height: `94px` }}
-                                                                className="cart-img"
                                                                 title="查看商品詳情"
                                                             />
                                                         </Link>
@@ -141,13 +140,17 @@ function Favorite() {
                                 </table>
                             </div>
 
+
                         )}
 
+
                     </div>
-                </div>
-            </div>
+         
+      
+
         </>
     )
+
 }
 
 export default Favorite;

@@ -60,7 +60,7 @@ function Navbar({ cartData }) {
 
     return (
         <nav className={navbarClass}  >
-            <div className="container-fluid mb-0 px-md-7 ">
+            <div className="container mb-0 ">
 
                 <NavLink
                     className="nav-link py-0 " aria-current="page" to={"/"} ><img src={imgA} alt="" /></NavLink>

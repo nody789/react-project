@@ -32,8 +32,9 @@ function Success() {
                     {/* <Link to='/' className='btn btn-outline-dark me-2 rounded-0 mb-4'>
                             回到首頁
                         </Link> */}
-                    <div className="bg-primary tablePadding" style={{ borderRadius: "30px" }}>
-                        <table className='table table-primary table-borderless m-0'>
+
+                    <div className="bg-primary tablePadding table-responsive" style={{ borderRadius: "30px" }}>
+                        <table className='table table-primary table-borderless m-0' style={{minWidth:"500px"}}>
                             <thead className="border-white thead-border">
                                 <tr>
                                     <td className="text-white" >購物清單</td>
@@ -46,11 +47,7 @@ function Success() {
                                             <td> <img
                                                 src={item.product.imageUrl}
                                                 alt=''
-                                                className='object-cover'
-                                                style={{
-                                                    width: '60px',
-                                                    height: '60px'
-                                                }}
+                                                className='cart-img'                                          
                                             /></td>
                                             <td className="text-white">{item.product.title}</td>
                                             <td className="text-white">{item.color}</td>

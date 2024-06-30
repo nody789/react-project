@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams, useNavigate,Link } from 'react-router-dom'
+import { useSearchParams, useNavigate, Link } from 'react-router-dom'
 import axios from "axios";
 import Loading from "../../components/Loading";
+import ProductsCard from '../../components/ProductsCard';
 
-
-function Search(){
-  // 使用 useSearchParams 取得 URL 中的查詢參數
-    const [searchParams] = useSearchParams()
-      // 定義 state 來存放產品資料和載入狀態
+function Search() {
+	// 使用 useSearchParams 取得 URL 中的查詢參數
+	const [searchParams] = useSearchParams()
+	// 定義 state 來存放產品資料和載入狀態
 	const [products, setProducts] = useState([])
 	const [isLoading, setIsLoading] = useState(false)
 	const navigate = useNavigate()
-    //從查詢參數中取得搜尋字串
+	//從查詢參數中取得搜尋字串
 	const searchString = searchParams?.get('query')
 
 	useEffect(() => {
 		const getFilteredProduct = async () => {
 			setIsLoading(true)
 			try {
-				const res =await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`);
+				const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`);
 				setProducts(
-                            // 過濾產品資料，僅保留標題包含搜尋字串的產品
+					// 過濾產品資料，僅保留標題包含搜尋字串的產品
 					res.data?.products?.filter((item) =>
 						item.title.includes(searchString)
 					)
@@ -33,7 +33,7 @@ function Search(){
 			}
 		}
 		if (searchString) {
-      // 如果有搜尋字串，調用 getFilteredProduct 來獲取過濾後的產品
+			// 如果有搜尋字串，調用 getFilteredProduct 來獲取過濾後的產品
 			getFilteredProduct()
 		} else {
 			setProducts([])
@@ -65,33 +65,28 @@ function Search(){
 								很抱歉，查無相關商品，您可以調整關鍵字再試試看
 							</p>
 						)}
-
 						<div className="row">
-							{products.map((item) => {
+
+							{products.map((product) => {
 								return (
-                                    <div className="col-md-4" key={item.id}>
-                                 
-                                    <div className="card border-0 mb-4">
-                                        <Link to={`/item/${item.id}`} style={{ textDecoration: "none" }}>
-                                            <img src={item.imageUrl} className="card-img-top rounded-0 object-cover" alt="..." />
-                                            <div className="card-body bg-primary text-white text-center p-0">
-                                                <h4 className="card-text mb-0" >{item.title}</h4>
-                                                <p className="card-text">{item.price}</p>
-                                            </div>
-                                        </Link>
-                                    </div>
-                                </div>
+									<div className="col-md-4 col-6" key={product.id}>
+
+										<ProductsCard product={product} />
+									</div>
+
 								)
+
 							})}
 						</div>
 						<button
-							type="button"
-							className="btn btn-primary mb-4 text-white"
-							onClick={() => navigate('/')}
-						>
-							回首頁
-						</button>
+						type="button"
+						className="btn btn-primary mb-4 text-white"
+						onClick={() => navigate('/')}
+					>
+						回首頁
+					</button>
 					</div>
+					
 				</div>
 			</div>
 		</>

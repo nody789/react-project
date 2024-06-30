@@ -100,7 +100,7 @@ function Products() {
                 </div>
                 <div className=" col-md-9 col-sm-12 ">
                     <div className="position-relative">
-                        <img src={prductsImg} className="object-fit-cover img-fluid mb-6 " alt="" />
+                        <img src={prductsImg} className="img-fluid mb-6 " alt="" />
                         <div className="product-img-text position-absolute top-50 start-50 translate-middle align-content-around ">
                             <h2 className="text-primary text-center">換季商品<br />秋冬商品新上市</h2>
                         </div>

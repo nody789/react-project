@@ -100,8 +100,8 @@ function Cart() {
               </>
             ) : (
               <>
-                <div className="bg-primary  tablePadding" style={{ margin: "auto", borderRadius: "30px" }}>
-                  <table className='table table-primary'>
+                <div className="bg-primary  tablePadding table-responsive" style={{ margin: "auto", borderRadius: "30px" }}>
+                  <table className='table table-primary' style={{minWidth:"500px"}}>
                     <thead className="border-white">
                       <tr>
                         <td className="text-white" >購物清單</td>
@@ -119,11 +119,7 @@ function Cart() {
                             <td> <img
                               src={item.product.imageUrl}
                               alt=''
-                              className='object-cover'
-                              style={{
-                                width: '60px',
-                                height: '60px'
-                              }}
+                              className='cart-img'
                             /></td>
                             <td className="text-white" >{item.product.title}</td>
                             <td className="text-white" >{item.color}</td>

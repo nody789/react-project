@@ -87,17 +87,18 @@ function Home() {
           <p className="h1">Esthetic_seoul</p>
           <p>提供您最需要的時尚單品</p>
 
-
-          {categoriesWithImages.map((category, i) => {
+          
+           
+          {/* {categoriesWithImages.map((category, i) => {
             return (
               <div className={`pe-3 text-center col-md-2  col-lg-2 col-6 mb-60 `} key={i} >
-                <div className="d-flex  align-items-center home-img-container">
+                <div className="d-flex flex-column align-items-center">
 
                   <Link style={{ textDecoration: "none" }}
                     to={`/products/${category.name === '所有商品' ? 'all' : category.name}`}
                   >
                     <img src={category.image} alt={category.name}
-                      className="home-img"
+                      style={{ width: '183px', height: '183px', objectFit: 'cover', borderRadius: '100%', }}
                     />
                     <h2 className="fs-4 mt-3 text-dark">{category.name}</h2>
                   </Link>
@@ -105,7 +106,19 @@ function Home() {
               </div>
 
             )
-          })}
+          })} */}
+          <div className="gap-3 d-flex flex-wrap">
+      {categoriesWithImages.map((category, index) => (
+        <div className="category-item" key={index}>
+          <Link to={`/products/${category.name}`} style={{ textDecoration: "none" }}>
+            <div className="category-image-wrapper">
+              <img src={category.image} alt={category.name} className="category-image rounded-circle" />
+            </div>
+            <div className="mt-1">{category.name}</div>
+          </Link>
+        </div>
+      ))}
+    </div>
         </div>
       </div>
       <div>

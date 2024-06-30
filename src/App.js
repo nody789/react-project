@@ -10,12 +10,9 @@ import ProductDetail from './pages/front/ProductDetail';
 import Cart from './pages/front/Cart';
 import Checkout from './pages/front/Checkout';
 import Success from './pages/front/Success';
-<<<<<<< HEAD
 import Favorite from './pages/front/Favorite';
 import Search from './pages/front/Search';
-=======
 import ShoppingStore from './pages/front/ShoppingStore';
->>>>>>> 5999229de6fa979cdb6f1c2b5bb6afd637ddc53f
 
 
 function App() {

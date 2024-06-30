@@ -1,0 +1,63 @@
+.checkout-steps {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+  
+    .checkout-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 4%;
+        height: 1.2px;
+        background: $primary;
+        width: calc(100% - 60px); // 調整連接線的長度
+        transform: translateY(-50%);
+        z-index: 0;
+      }
+  
+      > div:first-child {
+        // 數字圈圈
+        position: relative;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-width: 1px;
+        border-style: solid;
+        z-index: 1; // 確保在連接線之上
+        background: #ffffff;
+      }
+    }
+  
+    .checkout-done {
+      > div:first-child {
+        color: #ffffff;
+        border-color: $primary;
+        background-color: $primary;
+      }
+    }
+  
+    .checkout-undone {
+      > div:first-child {
+        color: $primary;
+        border-color: $primary;
+        background-color: #ffffff;
+        opacity: 1;
+      }
+    }
+  }
+  .cart-img{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }
