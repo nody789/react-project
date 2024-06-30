@@ -4,6 +4,7 @@ import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 export const messageSlice = createSlice({
     name: 'message',
     initialState: [],
+    additionalMessage: null,
     reducers: {
         createMessage(state, action) {
            if(action.payload.success){
@@ -26,27 +27,20 @@ export const messageSlice = createSlice({
                  : action.payload.message,
             });
            }
-
-            // const item={
-            //     type:'success',
-            //     title:'成功',
-            //     text:action.payload.message,
-            // }
-            // state.push(item)
-            //可以寫成這樣
-            // setTimeout(()=>{
-            //     //state 沒辦法在非同步狀態下存取
-            //     //檢查陣列的id如果item的id等於當前這個id 把品項移除
-            // const index = state.findIndex(item=>item===id);
-            // state.splice(index,1)
-            // },2000)
         },
         removeMessage(state,action){
             //這樣才是同步 加上setTimeout是非同步
             console.log('remove:',action.payload)
             const index = state.findIndex(item=>item===action.payload);
             state.splice(index,1)
-        }
+        },
+        setMessage(state, action) {
+            state.additionalMessage = action.payload;
+        },
+        clearMessage(state) {
+            state.additionalMessage = null;
+        },
+        
     }
 });
 
@@ -67,5 +61,5 @@ async function(payload,{dispatch,requestId}){
     },3000)
 
 });
-export const { createMessage } = messageSlice.actions;
+export const { createMessage ,removeMessage, setMessage, clearMessage } = messageSlice.actions;
 export default messageSlice.reducer;

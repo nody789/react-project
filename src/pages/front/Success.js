@@ -21,8 +21,8 @@ function Success() {
     }, [orderId])
     return (
         <div className='container'>
-            <div className='row  justify-content-center flex-md-row flex-column-reverse'>
-                <div className='col-8'>
+            <div className='row  justify-content-center '>
+                <div className='col-12 col-md-8'>
                     <Stepper data={[
                         { step: 1, content: '商品確認', done: true },
                         { step: 2, content: '付款資訊', done: true },
@@ -36,12 +36,7 @@ function Success() {
                         <table className='table table-primary table-borderless m-0'>
                             <thead className="border-white thead-border">
                                 <tr>
-                                    <td className="text-white" >商品圖片</td>
-                                    <td className="text-white" >商品名稱</td>
-                                    <td className="text-white" >顏色</td>
-                                    <td className="text-white" >尺寸</td>
-                                    <td className="text-white" >數量</td>
-                                    <td className="text-white" >價格</td>
+                                    <td className="text-white" >購物清單</td>
                                 </tr>
                             </thead>
                             <tbody className="border-white align-middle">
@@ -66,7 +61,7 @@ function Success() {
 
                                     )
                                 })}
-                                <tr>
+                                {/* <tr>
                                     <td colspan="4"></td>
                                     <td class="text-right text-white" >運費</td>
                                     <td class="text-right text-white">$60</td>
@@ -75,9 +70,17 @@ function Success() {
                                     <td colspan="4"></td>
                                     <td class="text-right text-white">總計</td>
                                     <td class="text-right text-white">NT${orderData.total}</td>
-                                </tr>
+                                </tr> */}
                             </tbody>
                         </table>
+                        <div className=' mt-3 text-white d-flex justify-content-between'>
+                            <p className='mb-0  fw-bold'>折價</p>
+                            <p className='mb-0  fw-bold'>0</p>
+                        </div>
+                        <div className=' mt-3 text-white d-flex justify-content-between'>
+                            <p className='mb-0  fw-bold'>總計</p>
+                            <p className='mb-0  fw-bold'>NT${orderData.total}</p>
+                        </div>
                     </div>
                     <div className="bg-primary text-white mt-6 tablePadding" style={{ borderRadius: "30px" }}>
                         <h5 className="h5">顧客資訊</h5>

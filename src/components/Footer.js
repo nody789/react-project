@@ -8,10 +8,10 @@ function Footer() {
         <div className="bg-primary">
             <div className='container'>
                 <div className="row pt-5">
-                    <div className="col-4 text-white">
+                    <div className="col-md-4 col-12 text-white">
                         <h2>Esthetic_seoul</h2>
                         <p>韓國是時尚與潮流的搖籃之一，<br />平凡卻充滿時尚，<br />Esthetic_seoul強調實用性和舒<br />適感的設計而聞名。</p>
-                        <div className="text-white p-0">
+                        <div className="p-0">
                             <ul className="d-flex p-0 fs-4 " style={{ listStyleType: "none", }}>
                                 <li><Link to="" className="text-white ms-0 "><img src={Facekbook} alt="" /></Link></li>
                                 <li><Link to="" className="text-white ms-3"><img src={Instagram} alt="" /></Link></li>
@@ -19,7 +19,7 @@ function Footer() {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-5 text-white">
+                    <div className="col-md-5 col-12 text-white">
                         <h2>service</h2>
                         <div>
                             <ul className="p-0" style={{ listStyleType: "none", }}>
@@ -31,7 +31,7 @@ function Footer() {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-3">
+                    <div className="col-md-3 col-12">
                         <h2 className="text-white">Policy </h2>
                         <div>
                             <ul className="p-0" style={{ listStyleType: "none", }}>

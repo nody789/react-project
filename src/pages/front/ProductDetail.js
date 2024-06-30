@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useOutletContext, useParams } from "react-router";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
-    // useNavigate,
-    // useOutletContext,
-    // useParams,
     Link,
 } from 'react-router-dom';
-import { createAsyncMessage } from "../../slice/messageSlice";
+import { createAsyncMessage, } from "../../slice/messageSlice";
+import { addFavorite, removeFavorite } from '../../slice/favoritesSlice';
+import Loading from "../../components/Loading";
+
 import imgBackground from "../../assets/236948485_167549795462865_3827562595937853525_n 1.png";
 import 'react-lazy-load-image-component/src/effects/blur.css';
 function ProductDetail() {
@@ -24,8 +25,9 @@ function ProductDetail() {
     const [mainImage, setMainImage] = useState();
     const [toggler, setToggler] = useState(false);
     const [tempImages, setTempImages] = useState([]);
+    const favorites = useSelector(state => state.favorites || []);
 
-
+    const isFavorite = favorites.some(fav => fav.id === id);
 
     const getProducts = async (id) => {
         const productsRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`);
@@ -80,38 +82,52 @@ function ProductDetail() {
     const changeMainImage = (image) => {
         setMainImage(image);
     }
+
+    const handleAddFavorite = () => {
+        if (product) {
+            if (favorites.some(fav => fav.id === product.id)) {
+                dispatch(removeFavorite(product));
+                dispatch(createAsyncMessage({ success: true, message: "成功移除我的最爱" }));
+
+            } else {
+                dispatch(addFavorite(product));
+                dispatch(createAsyncMessage({ success: true, message: "新增我的最爱" }));
+            }
+        }
+    };
     useEffect(() => {
         getProducts(id);
     }, [id])
     return (
         <>
-            <div className="container">
+            <div className="container-lg">
+                <Loading isLoading={isLoading} />
+
                 <div className="row justify-content-between mt-6">
-                    <div className=" product-detail col-lg-2">
-                        <div className="text-end">
-                            {tempImages?.map((img, i) => {
-                                return (
-                                    <div className="mb-3 " key={i} >
-                                        <img src={img} alt="產品其他圖片"
-                                            style={{ width: '183px', height: '183px', objectFit: 'cover', borderRadius: '100%', }}
-                                            onClick={() => changeMainImage(img)}
-                                        />
-                                    </div>
-
-                                )
-                            })}
-
+                    <div className="col-sm-12 col-md-2 order-md-0 order-sm-2 order-2">
+                        <div className="product-detail-img">
+                            {tempImages?.map((img, i) => (
+                                <div className="mb-3 left-img-container " key={i}>
+                                    <img
+                                        src={img}
+                                        alt="產品其他圖片"
+                                        className="left-img "
+                                        onClick={() => changeMainImage(img)}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
-                    <div className="product-detail col-lg-6 p-0  m-0">
+                    <div className="product-detail col-md-6 p-0 col-sm-12 order-md-1 order-sm-1 order-1  m-0">
+
                         <div
                             onClick={() => setToggler(!toggler)}>
-                            <img className="bg-light p-0 w-100" src={mainImage} alt="商品圖片" style={{ height: '590px', width: '590px', objectFit: 'cover' }} />
+                            <img className="bg-light p-0 w-100" src={mainImage} alt="商品圖片" style={{ objectFit: 'cover' }} />
                         </div>
 
 
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-4 col-sm-12 order-sm-3 order-md-2 order-3 ">
                         <nav aria-label='breadcrumb'>
                             <ul className='breadcrumb'>
                                 <li className='breadcrumb-item'>
@@ -135,11 +151,11 @@ function ProductDetail() {
                             </ul>
                         </nav>
                         <h2 className="mb-0 fs-4">{product.title}</h2>
-                        <div className="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between align-items-center">
                             <p className="fs-4 text-end" style={{ color: '#DE0000' }}>NT$ {product.price}</p>
                             <p className="text-decoration-line-through">NT${product.origin_price}</p>
                         </div>
-                         <p>{product.content}</p>
+                        <p>{product.content}</p>
                         <hr />
                         <div className="d-flex">
 
@@ -156,22 +172,7 @@ function ProductDetail() {
                                 <option value="XL">XL</option>
                             </select>
                         </div>
-                        {/* <div className="input-group mb-3   mt-3">
-                            <div className="input-group-prepend" >
-                                <button onClick={() => setCartQuantity((pre) =>
-                                    pre === 1 ? pre : pre - 1)} className="btn btn-primary text-light py-3" type="button" id="button-addon1">
-                                    <i className="bi bi-dash"></i>
-                                </button>
-                            </div>
-                            <input type="number" value={cartQuantity} readOnly className="form-control  text-light bg-primary border-0 text-center  shadow-none" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" />
-                            <div className="input-group-append">
-                                <button onClick={() => setCartQuantity((pre) =>
-                                    pre + 1)}
-                                    className="btn btn-primary text-light py-3" type="button" id="button-addon2">
-                                    <i className="bi bi-plus"></i>
-                                </button>
-                            </div>
-                        </div> */}
+
                         <div className="input-group border bg-primary btn-item mb-3   mt-3">
                             <div className="input-group-prepend">
                                 <button type="button" className="btn  border-0 text-light py-3"
@@ -191,8 +192,15 @@ function ProductDetail() {
                         </div>
                         <button type="button" disabled={isLoading} onClick={() => addTocart()} className="btn text-light btn-primary  w-100 btn-item py-3">加入購物車</button>
                         <div className="d-flex mt-3">
-                            <i className="bi bi-heart text-primary" style={{ fontSize: '48px' }}></i>
-                            <i className="bi bi-share text-primary ms-3" style={{ fontSize: '48px' }}></i>
+
+                            <button className="btn"
+                                onClick={handleAddFavorite}
+                                style={{
+                                    color: isFavorite ? '#AD8F7E' : '#AD8F7E',
+                                }}
+                            >
+                                {isFavorite ? <i className="bi bi-heart-fill" style={{ fontSize: "48px" }}></i> : <i className="bi bi-heart" style={{ fontSize: "48px" }}></i>}
+                            </button>                            <i className="bi bi-share text-primary ms-3" style={{ fontSize: '48px' }}></i>
 
                         </div>
                     </div>

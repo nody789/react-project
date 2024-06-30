@@ -1,6 +1,7 @@
 import { useEffect, useState, } from "react";
 import axios from "axios";
 import { Link, } from "react-router-dom";
+import ProductsCard from "../../components/ProductsCard";
 import Carousel1 from "../../assets/img/Carousel-1.png"
 import Carousel2 from "../../assets/img/Carousel-2.png"
 import HomeImg from "../../assets/img/homeImg.png"
@@ -57,35 +58,6 @@ function Home() {
   }, []);
   return (
     <>
-      {/* <header id="lokiMenu" class="fixed-top">
-    <nav class="navbar navbar-expand-md navbar-light navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" href="#lokiSlider">泰山渡假飯店</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#lokiNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="lokiNav">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="#lokiRoom"><i class="fas fa-bed me-2"></i>房型介紹</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#lokiFacility"><i class="fas fa-gamepad me-2"></i>服務設施</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#lokiFood"><i class="fas fa-utensils me-2"></i>餐飲美食</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#lokiTrans"><i class="fas fa-map-marker-alt me-2"></i>交通資訊</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#lokiContact"><i class="fas fa-envelope me-2"></i>聯絡我們</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header> */}
       <div className="container-fluid">
         <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-indicators">
@@ -106,64 +78,65 @@ function Home() {
             </div>
           </div>
         </div>
-        </div>
-        <div className="container">
+      </div>
+      <div className="container">
 
-        <div className="row">
-          
-          <div className="col-12 my-7">
-            <p className="h1">Esthetic_seoul</p>
-            <p>提供您最需要的時尚單品</p>
-            <div className="d-flex">
+        <div className="row my-7">
 
-            {categoriesWithImages.map((category, i) => {
-              return (
-                <div className={`pe-3 text-center `} key={i} >
+
+          <p className="h1">Esthetic_seoul</p>
+          <p>提供您最需要的時尚單品</p>
+
+
+          {categoriesWithImages.map((category, i) => {
+            return (
+              <div className={`pe-3 text-center col-md-2  col-lg-2 col-6 mb-60 `} key={i} >
+                <div className="d-flex  align-items-center home-img-container">
+
                   <Link style={{ textDecoration: "none" }}
-                    to={`/products/${category.name}`}
+                    to={`/products/${category.name === '所有商品' ? 'all' : category.name}`}
                   >
                     <img src={category.image} alt={category.name}
-                      style={{ width: '183px', height: '183px', objectFit: 'cover', borderRadius: '100%', }}
+                      className="home-img"
                     />
                     <h2 className="fs-4 mt-3 text-dark">{category.name}</h2>
                   </Link>
                 </div>
+              </div>
 
-              )
-            })}
-            </div>
-          </div>
+            )
+          })}
         </div>
-        </div>
-        <div>
-          <img src={HomeImg} className="d-block w-100" alt="" />
-        </div>
-        <div className="container my-7">
+      </div>
+      <div>
+        <img src={HomeImg} className="d-block w-100" alt="" />
+      </div>
+      <div className="container my-7">
         <div className="row">
-        {products.map((product) => (
-          <div className="col-3" key={product.id}>
-            <div className="card product-card border-0 mb-6">
-              <Link to={`/product/${product.id}`} style={{ textDecoration: "none" }}>
-                <img src={product.imageUrl} className="card-img-top rounded-0 object-cover" alt={product.title} />
-                <div className="card-body bg-primary text-white text-center p-0">
-                  <h4 className="card-text mb-0">{product.title}</h4>
-                  <p className="card-text">{product.price}</p>
-                </div>
-              </Link>
+          {products.map((product) => (
+            <div className="col-lg-3 col-6" key={product.id}>
+              <ProductsCard product={product} />
             </div>
-          </div>
-        ))}
+          ))}
         </div>
-    
 
-        </div>
-        <div className="container-fluid p-0">
-          <div className="d-flex">
-            <img src={homelogo1} alt="" />
-            <img src={homelogo2} alt="" />
-            <img src={homelogo3} alt="" />
-            <img src={homelogo4} alt="" />
+
+      </div>
+      <div className="container-fluid p-0 ">
+        <div className="row ">
+          <div className="col-md-3 col-6 p-0">
+            <img src={homelogo1} alt="" className="img-fluid" />
           </div>
+          <div className="col-md-3   col-6 p-0">
+            <img src={homelogo2} alt="" className="img-fluid" />
+          </div>
+          <div className="col-md-3  col-6 p-0">
+            <img src={homelogo3} alt="" className="img-fluid" />
+          </div>
+          <div className="col-md-3  col-6 p-0" >
+            <img src={homelogo4} alt="" className="img-fluid" />
+          </div>
+        </div>
       </div>
     </>
   )
