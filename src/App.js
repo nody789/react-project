@@ -10,8 +10,12 @@ import ProductDetail from './pages/front/ProductDetail';
 import Cart from './pages/front/Cart';
 import Checkout from './pages/front/Checkout';
 import Success from './pages/front/Success';
+<<<<<<< HEAD
 import Favorite from './pages/front/Favorite';
 import Search from './pages/front/Search';
+=======
+import ShoppingStore from './pages/front/ShoppingStore';
+>>>>>>> 5999229de6fa979cdb6f1c2b5bb6afd637ddc53f
 
 
 function App() {
@@ -34,8 +38,12 @@ function App() {
         <Route path='cart' element={<Cart/>}></Route>
         <Route path='checkout' element={<Checkout/>}></Route>
         <Route path='success/:orderId' element={<Success/>}></Route>
+<<<<<<< HEAD
         <Route path='favorite' element={<Favorite/>}></Route>
         <Route path='search' element={<Search/>}></Route>
+=======
+        <Route path='ShoppingStore' element={<ShoppingStore/>}></Route>
+>>>>>>> 5999229de6fa979cdb6f1c2b5bb6afd637ddc53f
       </Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/admin' element={<Dashboard/>}>

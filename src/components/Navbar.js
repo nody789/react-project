@@ -60,6 +60,7 @@ function Navbar({ cartData }) {
 
     return (
         <nav className={navbarClass}  >
+<<<<<<< HEAD
             <div className="container-fluid mb-0 px-md-7 ">
 
                 <NavLink
@@ -93,6 +94,48 @@ function Navbar({ cartData }) {
                            </li>
                         ))}
  
+=======
+            <div className="container-fluid">
+                <div className="collapse navbar-collapse justify-content-center align-items-baseline" id="navbarSupportedContent">
+                    <h1 className="mb-0 pe-5">                       
+                            <NavLink
+                                className="nav-link py-0 " aria-current="page" to={"/"} ><img src={imgA} alt="" /></NavLink>
+                     </h1>
+                    <ul className="navbar-nav mb-2 mb-lg-0 me-3 align-items-center">
+                        {/* <li className="nav-item">
+                            <NavLink
+                                className="nav-link py-0 " aria-current="page" to={"/"} ><img src={imgA} alt="" /></NavLink>
+                        </li> */}
+                        <li className="nav-item">
+                            <NavLink
+                                className="nav-link active text-white" aria-current="page" to={"/products/all"}>所有商品</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                                className="nav-link text-white" >熱銷商品</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                                className="nav-link text-white" >上衣類</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                                className="nav-link text-white" >下身類</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                                className="nav-link text-white" >洋裝</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                                className="nav-link text-white" >配件</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                            to={'/ShoppingStore'}
+                                className="nav-link text-white" href="#">門店資訊</NavLink>
+                        </li>
+>>>>>>> 5999229de6fa979cdb6f1c2b5bb6afd637ddc53f
                     </ul>
                     <div className="d-flex align-items-center " role="search">
                         <div className="input-group me-3 " id="search-container">
