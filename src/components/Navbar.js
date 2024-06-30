@@ -46,6 +46,7 @@ function Navbar({ cartData }) {
                         </li>
                         <li className="nav-item">
                             <NavLink
+                            to={'/ShoppingStore'}
                                 className="nav-link text-white" href="#">門店資訊</NavLink>
                         </li>
                     </ul>
