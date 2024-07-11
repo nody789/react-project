@@ -4,6 +4,8 @@ import ProductModal from "../../components/ProductModal";
 import DeleteModal from "../../components/DeleteModal";
 import { Modal } from "bootstrap";
 import Pagination from "../../components/Pagintaion";
+import Loading from "../../components/Loading";
+
 
 
 function AdminProducts() {
@@ -12,6 +14,8 @@ function AdminProducts() {
   //type 決定modal展開的用途
   const [type, setType] = useState('create');//edit
   const [tempProduct, setTempProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const productModal = useRef(null);
   const deleteModal = useRef(null);
 
@@ -21,12 +25,15 @@ function AdminProducts() {
     getProducts();
   }, [])
   const getProducts = async (page = 1) => {
-    const productsRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/products?page=${page}`);
-    console.log(productsRes)
-    //產品列表
-    setProducts(productsRes.data.products);
-    //分頁資料
-    setPagination(productsRes.data.pagination)
+    try {
+      setIsLoading(true)
+      const productRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/products?page=${page}`)
+      setProducts(productRes.data.products);
+      setPagination(productRes.data.pagination);
+      setIsLoading(false);
+  } catch (error) {
+      setIsLoading(false);
+  }
   }
   const openProductModal = (type, product) => {
     setType(type);
@@ -57,6 +64,8 @@ function AdminProducts() {
   }
   return (
     <>
+    <div>
+    <Loading isLoading={isLoading} />
       <ProductModal closeProductModal={closeProductModal} getProducts={getProducts}
         type={type} tempProduct={tempProduct} />
       <DeleteModal close={closeDeleteModal} text={tempProduct.title} handleDelete={deleteProduct} id={tempProduct.id} />
@@ -114,6 +123,8 @@ function AdminProducts() {
         </table>
         <Pagination pagination={pagination} changePage={getProducts}/>
       </div>
+
+    </div>
     </>
   )
 }

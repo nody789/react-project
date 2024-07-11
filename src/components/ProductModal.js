@@ -22,7 +22,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     const fileRef = useRef(null);
     const imagesRef = useRef(null);
     const [state, setState] = useState(true);
-    const [isDisabled, setIsdisabled] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(true);
     const [isErrored, setIsErrored] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const {
@@ -42,20 +42,15 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         errors
     })
 
+  
     useEffect(() => {
-        setIsdisabled(true)
-        const arr = Object.values(watchForm).map((item) => {
-            return item.typeof === String ? item.trim() : item
-        })
+        setIsDisabled(true);
+        const arr = Object.values(watchForm).map((item) => (typeof item === 'string' ? item.trim() : item));
         if (arr.length > 0 && !arr.includes('')) {
-            setIsdisabled(false)
+            setIsDisabled(false);
         }
-        if (errorArr.length > 0) {
-            setIsErrored(true)
-        } else {
-            setIsErrored(false)
-        }
-    }, [watchForm, errorArr])
+        setIsErrored(errorArr.length > 0);
+    }, [watchForm, errorArr]);
 
     const uploadImg = async () => {
         try {
@@ -159,12 +154,12 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         }
         clearErrors();
 
-    }, [type, tempProduct, state, clearErrors, getValues, setValue])
+    }, [type, tempProduct, state])
 
     const onSubmit = async (data) => {
         try {
             const { title, category, unit, price, origin_price, description, content, imageUrl, is_enabled } = data
-
+            console.log('提交的数据:', data); 
             const form = {
                 data: {
                     title,
@@ -189,6 +184,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
             handleRemove();
             handleSuccessMessage(dispatch, res);
             closeProductModal();
+            console.log(res)
             getProducts();
         } catch (error) {
             handleErrorMessage(dispatch, error)
@@ -412,7 +408,6 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         </div>
     </div>)
 }
-
 export default ProductModal
 
 

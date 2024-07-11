@@ -58,7 +58,7 @@ function Home() {
   }, []);
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid p-0">
         <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
@@ -89,24 +89,6 @@ function Home() {
 
           
            
-          {/* {categoriesWithImages.map((category, i) => {
-            return (
-              <div className={`pe-3 text-center col-md-2  col-lg-2 col-6 mb-60 `} key={i} >
-                <div className="d-flex flex-column align-items-center">
-
-                  <Link style={{ textDecoration: "none" }}
-                    to={`/products/${category.name === '所有商品' ? 'all' : category.name}`}
-                  >
-                    <img src={category.image} alt={category.name}
-                      style={{ width: '183px', height: '183px', objectFit: 'cover', borderRadius: '100%', }}
-                    />
-                    <h2 className="fs-4 mt-3 text-dark">{category.name}</h2>
-                  </Link>
-                </div>
-              </div>
-
-            )
-          })} */}
           <div className="gap-3 d-flex flex-wrap">
       {categoriesWithImages.map((category, index) => (
         <div className="category-item" key={index}>
@@ -128,7 +110,13 @@ function Home() {
         <div className="row">
           {products.map((product) => (
             <div className="col-lg-3 col-6" key={product.id}>
+               <Link to={`/product/${product.id}` }
+                                style={{ textDecoration: 'none' }}
+                    
+                            >
+
               <ProductsCard product={product} />
+                            </Link>
             </div>
           ))}
         </div>
@@ -136,7 +124,7 @@ function Home() {
 
       </div>
       <div className="container-fluid p-0 ">
-        <div className="row ">
+        <div className="row g-0">
           <div className="col-md-3 col-6 p-0">
             <img src={homelogo1} alt="" className="img-fluid" />
           </div>

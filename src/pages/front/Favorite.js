@@ -47,8 +47,7 @@ function Favorite() {
     }
     return (
         <>
-
-            <div className="container">
+            <div className="container min-vh-100">
             <Loading isLoading={isLoading} />
 
 

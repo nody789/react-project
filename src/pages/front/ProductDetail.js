@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useOutletContext, useParams } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
     Link,
 } from 'react-router-dom';
 import { createAsyncMessage, } from "../../slice/messageSlice";
-import { addFavorite, removeFavorite } from '../../slice/favoritesSlice';
-import Loading from "../../components/Loading";
 
-import imgBackground from "../../assets/img/store.png";
-import 'react-lazy-load-image-component/src/effects/blur.css';
+import { addFavorite, removeFavorite } from '../../slice/favoritesSlice';
+import ProductsCard from "../../components/ProductsCard";
+import Loading from "../../components/Loading";
 function ProductDetail() {
     const [product, setProduct] = useState({});
+    const [relatedProducts, setRelatedProducts] = useState([]);
     const { id } = useParams();
     const [cartQuantity, setCartQuantity] = useState(1);
     const [selectedSize, setSelectedSize] = useState(null);
@@ -21,7 +20,6 @@ function ProductDetail() {
     const [isLoading, setIsLoading] = useState(false);
     const { getCart } = useOutletContext();
     const dispatch = useDispatch();
-    // const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [mainImage, setMainImage] = useState();
     const [toggler, setToggler] = useState(false);
     const [tempImages, setTempImages] = useState([]);
@@ -43,7 +41,23 @@ function ProductDetail() {
             ])
 
         }
+        fetchRelatedProducts(productsRes.data.product.category);
+
     }
+    const fetchRelatedProducts = async (category) => {
+        try {
+            setIsLoading(true);
+            const relatedRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products`, {
+                params: { category }
+            });
+            setRelatedProducts(relatedRes.data.products.filter(item => item.id !== id).slice(0, 4));
+            setIsLoading(false);
+
+        } catch (error) {
+            setIsLoading(false);
+            dispatch(createAsyncMessage(error.response.data));
+        }
+    };
     const handleSizeSelect = (size) => {
         setSelectedSize(size); // 更新用戶選擇的尺寸
     };
@@ -155,8 +169,11 @@ function ProductDetail() {
                             <p className="fs-4 text-end" style={{ color: '#DE0000' }}>NT$ {product.price}</p>
                             <p className="text-decoration-line-through">NT${product.origin_price}</p>
                         </div>
+
                         <p>{product.content}</p>
                         <hr />
+                        <h2 className="fs-4">商品描述</h2>
+                        <p style={{ whiteSpace: "pre-line" }}>{product.description}</p>
                         <div className="d-flex">
 
                             <select defaultValue className="form-select bg-primary text-light btn-item" aria-label="Default select example" onChange={(e) => handleColorSelect(e.target.value)}>
@@ -205,9 +222,19 @@ function ProductDetail() {
                         </div>
                     </div>
                 </div>
-                <div >
-                    <img className="d-block mt-6  mx-auto w-100 mb-7 "
-                        src={imgBackground} alt="" />
+                <h3 className="mt-6">相關產品</h3>
+                <div className="row">
+                    {relatedProducts.map((relatedProduct) => (
+                        <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={relatedProduct.id}>
+                            <Link to={`/product/${relatedProduct.id}` }
+                                style={{ textDecoration: 'none' }}
+                               
+                            >
+                                <ProductsCard product={relatedProduct} ></ProductsCard>
+                                
+                            </Link>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>)

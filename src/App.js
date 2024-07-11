@@ -1,4 +1,5 @@
-import {Routes,Route} from 'react-router-dom'; 
+import {Routes,Route,useLocation} from 'react-router-dom'; 
+import { useEffect } from 'react';
 import Login from './pages/Login';
 import Dashboard from './pages/admin/Dashboard';
 import AdminProducts from './pages/admin/AdminProducts';
@@ -24,6 +25,12 @@ function App() {
   //  console.log(res);
   //   })()
   // },[])
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <div className="App">
       

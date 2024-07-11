@@ -51,25 +51,25 @@ function Products() {
         try {
             const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`);
             const productsAll = res.data.products;
-      
+
             const categories = [
-              ...new Set(productsAll.map((product) => product.category)), // 將所有商品的類別加到 categories 中
+                ...new Set(productsAll.map((product) => product.category)), // 將所有商品的類別加到 categories 中
             ];
-      
+
             categories.unshift('所有商品'); // 在類別清單的最前面加上 '所有商品'
             setIsLoading(true);
-      
+
             const categoriesWithImages = categories.map((category) => ({
-              name: category,
-              image: categoryImages[category] || '/images/default.jpg' // 如果沒有找到匹配的圖片，則使用默認圖片
+                name: category,
+                image: categoryImages[category] || '/images/default.jpg' // 如果沒有找到匹配的圖片，則使用默認圖片
             }));
             setCategoriesWithImages(categoriesWithImages);
             setIsLoading(false);
-          } catch (error) {
+        } catch (error) {
             console.error("Error fetching categories:", error);
             setIsLoading(false);
-          }
-        
+        }
+
 
     };
     useEffect(() => {
@@ -92,11 +92,11 @@ function Products() {
             <Loading isLoading={isLoading} />
             <div className="row">
                 <div className=" col-md-3 col-sm-12 justify-content-center align-items-center">
-                            < ProductCategory 
-                            categoriesWithImages={categoriesWithImages} 
-                                selectedCategory={selectedCategory}
-                                handleCategoryClick={handleCategoryClick} />
-              
+                    < ProductCategory
+                        categoriesWithImages={categoriesWithImages}
+                        selectedCategory={selectedCategory}
+                        handleCategoryClick={handleCategoryClick} />
+
                 </div>
                 <div className=" col-md-9 col-sm-12 ">
                     <div className="position-relative">
@@ -111,8 +111,11 @@ function Products() {
                         {products.map((product) => {
                             return (
                                 <div className="col-md-4 col-6" key={product.id}>
-
-                                 <ProductsCard product={product}/>
+                                    <Link to={`/product/${product.id}`}
+                                        style={{ textDecoration: 'none' }}
+                                    >
+                                        <ProductsCard product={product} />
+                                    </Link>
                                 </div>
 
                             )

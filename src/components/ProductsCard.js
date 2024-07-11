@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom'
 
 function ProductsCard({ product }) {
     return (
         <>
             <div className="card border-0 mb-4">
-                <Link to={`/product/${product.id}`} style={{ textDecoration: "none" }}>
                     <img src={product.imageUrl} className="card-img-top rounded-0" alt="..."style={{ height: "300px" }} />
                     <div className="card-body bg-primary text-white text-center" style={{ padding: "10px" }}>
                         <h4 className="card-text mb-0 fs-5" >{product.title}</h4>
@@ -14,7 +12,6 @@ function ProductsCard({ product }) {
                         </div>
 
                     </div>
-                </Link>
             </div>
         </>
     )

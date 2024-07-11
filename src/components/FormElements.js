@@ -63,29 +63,23 @@ export const Input1 = ({
   );
 };
 export const Textarea = ({
-  register,
-  // errors,
-  labelText,
-  id,
-  rowNum,
-  rules,
-  // placeholder = '',
+  id, labelText, register, type, errors, rules, rows
 }) => {
   return (
     <>
-      <label htmlFor={id} className='form-label'>
-        {labelText}
-      </label>
-      <textarea
-      style={{height:"219px"}}
-        id={id}
-        // rows={rowNum}
-        // placeholder={placeholder}
-        // className={`form-control ${errors[id] ? 'is-invalid' : ''}`}
-        className='form-control'
-        // {...register(id, rules)}
-      />
-      {/* <FormErrorMsg errors={errors} name={id} /> */}
+    <label htmlFor={id} className='form-label'>
+          {labelText}
+        </label>
+        <textarea
+          id={id}
+          type={type}
+          rows={rows}
+          className={`form-control  ${errors[id] && 'is-invalid'}`}
+          {...register(id, rules)}
+        />
+        {errors[id] && (
+          <div className='invalid-feedback'>{errors[id]?.message}</div>
+        )}
     </>
   );
 };
@@ -102,20 +96,35 @@ export const CheckboxRadio = ({
   hasErrorMsg,
 }) => {
   return (
-    <div className='form-check p-0'>
-      <input
-        className={`btn-check${errors[name] ? 'is-invalid' : ''}`}
-        type={type}
-        id={id}
-        value={value}
-        {...register(name, rules)}
-      />
-      <label className='btn btn-light btn-heckboxRadio' htmlFor={id}>
-        {labelText}
-      </label>
+    // <div className='form-check p-0'>
+    //   <input
+    //     className={`btn-check${errors[name] ? 'is-invalid' : ''}`}
+    //     type={type}
+    //     id={id}
+    //     value={value}
+    //     {...register(name, rules)}
+    //   />
+    //   <label className='btn btn-light  rounded-circle' htmlFor={id}>
+    //     {labelText}
+    //   </label>
 
-      {hasErrorMsg && <FormErrorMsg errors={errors} name={name} />}
-    </div>
+    //   {hasErrorMsg && <FormErrorMsg errors={errors} name={name} />}
+    // </div>
+   
+      <div className='form-check p-0 flex-fill me-2'>
+        <input
+          className={`btn-check${errors[name] ? ' is-invalid' : ''}`}
+          type={type}
+          id={id}
+          value={value}
+          {...register(name, rules)}
+        />
+        <label className='btn btn-light btn-heckboxRadio w-100  ' htmlFor={id}>
+          {labelText}
+        </label>
+        {hasErrorMsg && <FormErrorMsg errors={errors} name={name} />}
+      </div>
+     
   );
 };
 

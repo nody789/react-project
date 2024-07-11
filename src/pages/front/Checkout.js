@@ -30,21 +30,19 @@ function Checkout() {
           tel,
           address
         },
-        // message: "這是留言"
-        // -Nv0i0pbMlZbxU4hwOzs
+      
       }
     }
-    // console.log(errors);
-    // console.log(data);
+
     const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/order`, form);
     console.log(res);
     navigate(`/success/${res.data.orderId}`)
   };
   return (
 
-      <div className='container p-0'>
-        <div className='row justify-content-center flex-md-row flex-column-reverse'>
-          <div className='col-md-8 ' >
+      <div className='container container-fluid-md'>
+        <div className='row justify-content-center'>
+          <div className='col-md-8 col-12' >
             <Stepper data={[
               { step: 1, content: '商品確認', done: true },
               { step: 2, content: '付款資訊', done: true },
@@ -52,7 +50,6 @@ function Checkout() {
             ]}></Stepper>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className='bg-primary text-white tablePadding' style={{ borderRadius: "30px" }}>
-                {/* style={{width:"794px",margin:"auto"}} */}
                 <h4 className='fw-bold'>顧客資訊</h4>
                 <div className='mb-2 '>
                   <Input
@@ -130,8 +127,9 @@ function Checkout() {
                 <div className='mb-2'>
                   <h4>發票資訊</h4>
                   <hr className='new1' />
-                  <div className='d-flex  justify-content-between'>
-                    <CheckboxRadio style={{width: "143px",height: "49px"}} type="radio"
+                  <div className="row">
+                  <div className="col d-flex justify-content-between">
+                    <CheckboxRadio type="radio"
                       register={register}
                       errors={errors}
                       name="isInvoice"
@@ -162,8 +160,11 @@ function Checkout() {
                       }}
                       labelText="發票捐贈" />
                      
+
+                    </div>
+                    </div>
                   </div>
-                </div>
+  
 
               </div>
               <div className='d-flex  mt-6 justify-content-center mb-7'>
@@ -182,39 +183,7 @@ function Checkout() {
             </form>
 
           </div>
-          {/* <div className='col-md-4'>
-            <div className='border p-4 mb-4'>
-              <h4 className='mb-4'>選購餐點</h4>
-              {cartData?.carts?.map((item) => {
-                return (
-                  <div className='d-flex' key={item.id}>
-                    <img
-                      src={item.product.imageUrl}
-                      alt=''
-                      className='me-2'
-                      style={{ width: '48px', height: '48px', objectFit: 'cover' }}
-                    />
-                    <div className='w-100'>
-                      <div className='d-flex justify-content-between fw-bold'>
-                        <p className='mb-0'>{item.product.title}</p>
-                        <p className='mb-0'>x{item.qty}</p>
-                      </div>
-                      <div className='d-flex justify-content-between'>
-                        <p className='text-muted mb-0'>
-                          <small>NT$ {item.product.price}</small>
-                        </p>
-                        <p className='mb-0'>NT$ {item.final_total}</p>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-              <div className='d-flex justify-content-between mt-4'>
-                <p className='mb-0 h4 fw-bold'>Total</p>
-                <p className='mb-0 h4 fw-bold'>NT$ {cartData.final_total}</p>
-              </div>
-            </div>
-          </div> */}
+         
         </div>
       </div>
   );
