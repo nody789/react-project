@@ -117,12 +117,24 @@ function Checkout() {
                   ></Input>
                 </div>
                 <div className='mb-2'>
-                  <Textarea register={register} labelText="備註事項"
+                  {/* <Textarea register={register} labelText="備註事項"
                     id="comment"
                     rows="5"
 
                   >
-                  </Textarea>
+                  </Textarea> */}
+                  <div className='form-group mb-2'>
+                                        <Textarea
+                                            id='comment'
+                                            type='text'
+                                            errors={errors}
+                                            labelText='備註事項'
+                                            register={register}
+                                            placeholder='請輸入備註事項'
+                                           
+                                        >
+                                        </Textarea>
+                                    </div>
                 </div>
                 <div className='mb-2'>
                   <h4>發票資訊</h4>
