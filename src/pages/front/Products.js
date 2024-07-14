@@ -88,7 +88,7 @@ function Products() {
     };
     return (<>
 
-        <div className="container-lg mt-6  mb-6">
+        <div className=" mt-6  mb-6 container-lg ">
             <Loading isLoading={isLoading} />
             <div className="row">
                 <div className=" col-md-3 col-sm-12 justify-content-center align-items-center">
