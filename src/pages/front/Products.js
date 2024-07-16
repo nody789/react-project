@@ -86,41 +86,32 @@ function Products() {
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
     };
-    return (<>
-
-        <div className=" mt-6  mb-6 container-lg ">
+    return (        <>
+        <div className="mt-6 mb-6 container-lg">
             <Loading isLoading={isLoading} />
             <div className="row">
-                <div className=" col-md-3 col-sm-12 justify-content-center align-items-center">
-                    < ProductCategory
+                <div className="col-md-3 col-sm-12 justify-content-center align-items-center">
+                    <ProductCategory
                         categoriesWithImages={categoriesWithImages}
                         selectedCategory={selectedCategory}
-                        handleCategoryClick={handleCategoryClick} />
-
+                        handleCategoryClick={handleCategoryClick}
+                    />
                 </div>
-                <div className=" col-md-9 col-sm-12 ">
+                <div className="col-md-9 col-sm-12">
                     <div className="position-relative">
-                        <img src={prductsImg} className="img-fluid mb-6 " alt="" />
-                        <div className="product-img-text position-absolute top-50 start-50 translate-middle align-content-around ">
-                            <h2 className="text-primary text-center">換季商品<br />秋冬商品新上市</h2>
+                        <img src={prductsImg} className="img-fluid mb-6 w-100" alt="商品图片" />
+                        <div className="product-img-text position-absolute top-50 start-50 translate-middle align-content-around text-center">
+                            <h2 className="text-primary">換季商品<br />秋冬商品新上市</h2>
                         </div>
                     </div>
-
                     <div className="row">
-
-                        {products.map((product) => {
-                            return (
-                                <div className="col-md-4 col-6" key={product.id}>
-                                    <Link to={`/product/${product.id}`}
-                                        style={{ textDecoration: 'none' }}
-                                    >
-                                        <ProductsCard product={product} />
-                                    </Link>
-                                </div>
-
-                            )
-
-                        })}
+                        {products.map((product) => (
+                            <div className="col-md-4 col-6 mb-4" key={product.id}>
+                                <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                                    <ProductsCard product={product} />
+                                </Link>
+                            </div>
+                        ))}
                     </div>
                     <nav className="d-flex justify-content-center">
                         <Pagination pagination={pagination} changePage={getProducts} />

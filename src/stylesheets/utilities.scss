@@ -104,12 +104,12 @@ opacity: 1 !important;
 
 .category-item {
   text-align: center;
-  max-width: 200px; /* 设置每个项目的最大宽度 */
-}
+  max-width: 100%; /* 确保项目宽度在小屏幕上不超过视口 */
+  margin: auto;}
 
 .category-image-wrapper {
-  width: 180px; /* 调整图片容器的大小 */
-  height: 180px; /* 调整图片容器的大小 */
+  width: 160px; /* 调整图片容器的大小 */
+  height: 160px; /* 调整图片容器的大小 */
   overflow: hidden; /* 隐藏溢出部分，确保图片圆形 */
   margin: auto; /* 居中图片 */
 }
