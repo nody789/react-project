@@ -33,35 +33,7 @@ export const Input = ({
     </>
   );
 };
-export const Input1 = ({
-  register,
-  errors,
-  id,
-  type,
-  labelText,
-  rules,
-  placeholder = '',
-  onChange,
-}) => {
-  return (
-    <>
-  <div className="form-group row">
-    <label  htmlFor={id} className="col-sm-1 col-form-label">{labelText}</label>
-    <div className="col-sm-11">
-    <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        className={`form-control ${errors[id] ? 'is-invalid' : ''}`}
-        {...register(id, rules)}
-        onChange={onChange}
-      /> 
-      <FormErrorMsg errors={errors} name={id} />
-      </div>
-  </div>
-    </>
-  );
-};
+
 export const Textarea = ({
   id, labelText, register, type, errors, rules, rows
 }) => {
