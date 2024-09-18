@@ -1,8 +1,10 @@
+import React from "react";
+
 // function Stepper({stepper}) {
 //     return (
 //         <div className="stepper d-flex justify-content-center my-5">
 //                     <div className={`step ${stepper === 1 ? 'active' : ''} ${stepper > 1 ? 'checked' : ''}`} >
-                        
+
 //                         <div className="circle"></div>
 //                         <div className="label mt-1">確認商品</div>
 //                     </div>
@@ -19,22 +21,21 @@
 //                 </div>
 //     )
 //     };
-    
+
 //     export default Stepper;
 
-    function Stepper({ data }) {
-      return (
-        <div className="checkout-steps my-7">
-          {data.map((item, index) => (
-            <div
-              className={`checkout-item  ${item.done ? 'checkout-done' : 'checkout-undone'}`}
-              key={index}
-            >
-              <div>{item.step}.{item.content}</div>
-            </div>
-          ))}
+function Stepper({ data }) {
+  return (
+    <div className="checkout-steps my-7">
+      {data.map((item, index) => (
+        <div
+          className={`checkout-item  ${item.done ? 'checkout-done' : 'checkout-undone'}`}
+          key={index}
+        >
+          <div>{item.step}.{item.content}</div>
         </div>
-      );
-      }
-      export default Stepper;
-      
+      ))}
+    </div>
+  );
+}
+export default Stepper;

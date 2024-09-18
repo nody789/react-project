@@ -10,7 +10,6 @@ export const favoritesSlice = createSlice({
     addFavorite: (state, action) => {
       state.push(action.payload);
       localStorage.setItem('favorites', JSON.stringify(state));
-      console.log(state,action)
     },
     removeFavorite: (state, action) => {
       const newState = state.filter(item => item.id !== action.payload.id);

@@ -1,8 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch,} from 'react-redux';
+import { createAsyncMessage, } from "../slice/messageSlice";
 
-function CouponsModal({closeModal,getCoupons,type,tempCoupons}) {
-  const [tempData,setTempData] = useState({
+function CouponsModal({ closeModal, getCoupons, type, tempCoupons }) {
+  const dispatch = useDispatch();
+
+  const [tempData, setTempData] = useState({
     title: "",
     is_enabled: 1,
     percent: 80,
@@ -10,73 +14,73 @@ function CouponsModal({closeModal,getCoupons,type,tempCoupons}) {
     code: "testCode"
   });
   //在儲存時間的時候要先儲存這個格式 用於後面轉換
-  const [date,setDate] = useState(new Date());
-  useEffect(()=>{
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
     //用type 來判斷新增還是編輯
-    if(type === 'create'){
-    setTempData({
-      title: "",
-      is_enabled: 1,
-      percent: 80,
-      due_date: 1555459200,
-      code: "testCode"
-    });
-    //預設今天日期
-    setDate(new Date());
-    }else if(type==='edit'){
-     setTempData(tempCoupons);
-     setDate(new Date(tempCoupons.due_date))
-    }
-    console.log(type,tempCoupons)
-  },[type,tempCoupons])
-  const handleChange=(e)=>{
-    console.log(e)
-    const {value,name} = e.target
-    //includes 查詢的值
-    if(['price','origin_price'].includes(name)){
+    if (type === 'create') {
       setTempData({
-        //包含原始值
-        ...tempData,
-        [name]:Number(value),
-      })
-    }else if(name==='is_enabled'){
-      setTempData({
-        //包含原始值
-        ...tempData,
-        [name]:+e.target.checked,//
-      })
-    }else{
-      setTempData({
-        //包含原始值
-        ...tempData,
-        [name]:value,
-       })
-
+        title: "",
+        is_enabled: 1,
+        percent: 80,
+        due_date: 1555459200,
+        code: "testCode"
+      });
+      //預設今天日期
+      setDate(new Date());
+    } else if (type === 'edit') {
+      setTempData(tempCoupons);
+      setDate(new Date(tempCoupons.due_date))
     }
-  }
-  const submit =async()=>{
-   try {
-    let api =`/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon`;
-    let method = 'post'
-    if(type==='edit'){
-    api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon/${tempCoupons.id}`
-    method = 'put';
-    }
-    const res = await axios[method](api, {data:{
-      ...tempData,
-      due_date:date.getTime(),//轉換成unix timestamp
-    }});
-
-    console.log(res)
-    closeModal();
-    getCoupons();
-   } catch (error) {
-    console.log(error)
-   }
-  }
+  }, [type, tempCoupons])
+  const handleChange = (e) => {
   
-    return (
-      <div
+    const { value, name } = e.target
+    //includes 查詢的值
+    if (['price', 'origin_price'].includes(name)) {
+      setTempData({
+        //包含原始值
+        ...tempData,
+        [name]: Number(value),
+      })
+    } else if (name === 'is_enabled') {
+      setTempData({
+        //包含原始值
+        ...tempData,
+        [name]: +e.target.checked,//
+      })
+    } else {
+      setTempData({
+        //包含原始值
+        ...tempData,
+        [name]: value,
+      })
+
+    }
+  }
+  const submit = async () => {
+    try {
+      let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon`;
+      let method = 'post'
+      if (type === 'edit') {
+        api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon/${tempCoupons.id}`
+        method = 'put';
+      }
+      const res = await axios[method](api, {
+        data: {
+          ...tempData,
+          due_date: date.getTime(),//轉換成unix timestamp
+        }
+      });
+      closeModal();
+      getCoupons();
+      dispatch(createAsyncMessage(res.data));
+    } catch (error) {
+      dispatch(createAsyncMessage(error.response.data));
+    }
+  }
+
+  return (
+    <div
       className='modal fade'
       id='productModal'
       tabIndex='-1'
@@ -86,9 +90,9 @@ function CouponsModal({closeModal,getCoupons,type,tempCoupons}) {
       <div className='modal-dialog modal-lg'>
         <div className='modal-content'>
           <div className='modal-header'>
-          <h1 className='modal-title fs-5' id='exampleModalLabel'>
-                {type ==='create' ? '建立新優惠卷' :`編輯${tempData.title}`}
-              </h1>
+            <h1 className='modal-title fs-5' id='exampleModalLabel'>
+              {type === 'create' ? '建立新優惠卷' : `編輯${tempData.title}`}
+            </h1>
             <button type='button' className='btn-close' aria-label='Close' onClick={closeModal} />
           </div>
           <div className='modal-body'>
@@ -138,10 +142,10 @@ function CouponsModal({closeModal,getCoupons,type,tempCoupons}) {
                       .toString()
                       .padStart(2, 0)}-${date
                         //在把時間轉換成給轉換出來把它取出來轉換成字串
-                      .getDate()
-                      .toString()
-                      .padStart(2, 0)}`}
-                    onChange={(e)=>{
+                        .getDate()
+                        .toString()
+                        .padStart(2, 0)}`}
+                    onChange={(e) => {
                       setDate(new Date(e.target.value))
                     }}
                   />
@@ -186,7 +190,7 @@ function CouponsModal({closeModal,getCoupons,type,tempCoupons}) {
         </div>
       </div>
     </div>
-    );
-  }
-  
-  export default  CouponsModal;
+  );
+}
+
+export default CouponsModal;

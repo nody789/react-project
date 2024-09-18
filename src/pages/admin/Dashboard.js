@@ -1,7 +1,7 @@
 //巢狀路由 
 import {Outlet,useNavigate,Link} from "react-router-dom";
 import axios from "axios";
-import { useEffect, useReducer } from "react";
+import React,{ useEffect, useReducer } from "react";
 import Message from "../../components/Message";
 import { MessageContext,messageReducer,initState } from "../../store/messageStore";
 function Dashboard(){
@@ -17,7 +17,6 @@ function Dashboard(){
         .split('; ')
         .find((row) => row.startsWith('nody852Token='))
         ?.split('=')[1];
-        console.log(token)
         //axios的預設值在headers裡面必須夾帶一個認證的資訊
         axios.defaults.headers.common['Authorization'] = token;
         useEffect(()=>{
@@ -40,7 +39,7 @@ function Dashboard(){
         <nav className="navbar navbar-expand-lg bg-dark">
         <div className="container-fluid">
           <p className="text-white mb-0">
-            HEX EATS 後台管理系統
+          Esthetic_seoul後台管理系統
           </p>
           <button
             className="navbar-toggler"

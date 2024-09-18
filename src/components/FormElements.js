@@ -1,4 +1,5 @@
-import { Combobox } from 'react-widgets';
+import React from "react";
+import { Controller } from 'react-hook-form';
 const FormErrorMsg = ({ errors, name }) => {
   return (
     errors[name] && (
@@ -39,19 +40,19 @@ export const Textarea = ({
 }) => {
   return (
     <>
-    <label htmlFor={id} className='form-label'>
-          {labelText}
-        </label>
-        <textarea
-          id={id}
-          type={type}
-          rows={rows}
-          className={`form-control  ${errors[id] && 'is-invalid'}`}
-          {...register(id, rules)}
-        />
-        {errors[id] && (
-          <div className='invalid-feedback'>{errors[id]?.message}</div>
-        )}
+      <label htmlFor={id} className='form-label'>
+        {labelText}
+      </label>
+      <textarea
+        id={id}
+        type={type}
+        rows={rows}
+        className={`form-control  ${errors[id] && 'is-invalid'}`}
+        {...register(id, rules)}
+      />
+      {errors[id] && (
+        <div className='invalid-feedback'>{errors[id]?.message}</div>
+      )}
     </>
   );
 };
@@ -82,26 +83,25 @@ export const CheckboxRadio = ({
 
     //   {hasErrorMsg && <FormErrorMsg errors={errors} name={name} />}
     // </div>
-   
-      <div className='form-check p-0 flex-fill me-2'>
-        <input
-          className={`btn-check${errors[name] ? ' is-invalid' : ''}`}
-          type={type}
-          id={id}
-          value={value}
-          {...register(name, rules)}
-        />
-        <label className='btn btn-light btn-heckboxRadio w-100  ' htmlFor={id}>
-          {labelText}
-        </label>
-        {hasErrorMsg && <FormErrorMsg errors={errors} name={name} />}
-      </div>
-     
+
+    <div className='form-check p-0 flex-fill me-2'>
+      <input
+        className={`btn-check${errors[name] ? ' is-invalid' : ''}`}
+        type={type}
+        id={id}
+        value={value}
+        {...register(name, rules)}
+      />
+      <label className='btn btn-light btn-item w-100  ' htmlFor={id}>
+        {labelText}
+      </label>
+      {hasErrorMsg && <FormErrorMsg errors={errors} name={name} />}
+    </div>
+
   );
 };
 
-export const Selectbox = ({
-  Controller,
+export const SelectBox = ({
   control,
   data,
   labelText,
@@ -111,39 +111,38 @@ export const Selectbox = ({
 }) => {
   return (
     <>
-      <label className='w-100 form-label' htmlFor={`${id}_input`}>
+      <label className="w-100 form-label" htmlFor={`${id}_input`}>
         {labelText}
       </label>
       <Controller
         name={id}
         control={control}
         rules={rules}
-        render={({
-          field: { onChange, onBlur, value },
-          fieldState: { error },
-        }) => (
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
           <div>
-            <Combobox
+            <select
               id={id}
               name={id}
               placeholder={placeholder}
-              data={data}
               value={value}
               onChange={onChange}
-              messages={{ emptyFilter: '目前無此分類' }}
               onBlur={onBlur}
-              inputProps={{
-                className: `form-control ${error?.message ? 'is-invalid' : ''}`,
-              }}
-            />
-            {<div className='invalid-feedback d-block'>{error?.message}</div>}
+              className={`form-select ${error ? 'is-invalid' : ''}`}
+            >
+              <option value="" disabled>{placeholder}</option>
+              {data.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {error && <div className="invalid-feedback d-block">{error.message}</div>}
           </div>
         )}
       />
     </>
   );
 };
-
 export const Select = ({
   register,
   errors,

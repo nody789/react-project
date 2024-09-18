@@ -1,9 +1,11 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch} from 'react-redux';
 import CouponsModal from "../../components/CouponsModal";
 import DeleteModal from "../../components/DeleteModal";
 import { Modal } from "bootstrap";
 import Pagination from "../../components/Pagintaion";
+import { createAsyncMessage, } from "../../slice/messageSlice";
 
 
 function AdminCoupons() {
@@ -14,6 +16,7 @@ function AdminCoupons() {
   const [tempCoupon, setTempCoupon] = useState({});
   const couponModal = useRef(null);
   const deleteModal = useRef(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     couponModal.current = new Modal('#productModal', { backdrop: 'static' });
@@ -22,7 +25,6 @@ function AdminCoupons() {
   }, [])
   const getCoupons = async (page = 1) => {
     const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupons?page=${page}`);
-    console.log(res)
     //產品列表
     setCoupon(res.data.coupons);
     //分頁資料
@@ -47,12 +49,12 @@ function AdminCoupons() {
     try {
       const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon/${id}`);
       if (res.data.success) {
+        dispatch(createAsyncMessage(res.data));
         getCoupons();
         deleteModal.current.hide();
-        console.log(res.data.message)
       }
     } catch (error) {
-      console.log(error)
+      dispatch(createAsyncMessage(error));
     }
   }
   return (
@@ -111,10 +113,9 @@ function AdminCoupons() {
                 </tr>
               )
             })}
-
           </tbody>
         </table>
-        <Pagination pagination={pagination} changePage={getCoupons}/>
+        <Pagination pagination={pagination} changePage={getCoupons} />
       </div>
     </>
   )

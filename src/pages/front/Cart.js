@@ -1,33 +1,51 @@
 import { useOutletContext } from "react-router";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from 'react-redux';
+import { Modal } from "bootstrap";
 import { createAsyncMessage } from "../../slice/messageSlice";
 import Loading from "../../components/Loading";
 import Stepper from "../../components/Stepper";
+import DeleteModal from "../../components/DeleteModal";
+
 function Cart() {
   const { cartData, getCart } = useOutletContext();
+  const [currentCartData, setCurrentCartData] = useState([]); // 保存当前商品信息
   const [loadingItems, setLoadingItems] = useState([]);
   const [couponCode, setCouponCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [couponMsg, setCouponMsg] = useState('');
-  const [stepper] = useState(1);
-  const hascoupon = cartData?.final_total !== cartData?.total;
+  const hasCoupon = cartData?.final_total !== cartData?.total;
+  const deleteModal = useRef(null);
 
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    deleteModal.current = new Modal('#deleteModal', { backdrop: 'static' });
+  }, [getCart]);
+
+  const openDeleteModal = (cartData) => {
+    setCurrentCartData(cartData);
+    deleteModal.current.show();
+  }
+  const closeDeleteModal = () => {
+    deleteModal.current.hide();
+  }
+
   const removeCartItem = async (id) => {
     try {
       const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
-      dispatch(createAsyncMessage(res.data));
-      getCart();
-      console.log(res)
+      if (res.data.success) {
+        dispatch(createAsyncMessage(res.data));
+        closeDeleteModal();  // 確保刪除後關閉模態框
+        getCart(); // 刷新購物車
+      }
     } catch (error) {
-      console.log(error)
+      dispatch(createAsyncMessage(error));
     }
   }
-  const sendCoupon = async () => {
+  const applyCoupon = async () => {
     if (!couponCode) {
       return;
     }
@@ -65,13 +83,9 @@ function Cart() {
       setLoadingItems(loadingItems.filter((loadingObject) => loadingObject !== item.id));
       dispatch(createAsyncMessage(res.data))
       getCart();
-
-      console.log(res)
     } catch (error) {
-      console.log(error);
       dispatch(createAsyncMessage(error.response.data));
       setLoadingItems(loadingItems.filter((loadingObject) => loadingObject !== item.id));
-
     }
   }
 
@@ -79,15 +93,19 @@ function Cart() {
     <>
       <div className='container'>
         <Loading isLoading={isLoading} />
-
-        <div className='row justify-content-center'>
-          <div className='col-12 col-md-8 '>
-            <Stepper   data={[
+        <DeleteModal
+          close={closeDeleteModal}
+          text={currentCartData?.product?.title} //顯示當前產品名字
+          handleDelete={() => removeCartItem(currentCartData?.id)} // 删除当前商品
+          id={currentCartData?.id}
+        />
+          <div className='row justify-content-center'>
+          <div className='col-12 col-md-10 col-lg-8'>
+            <Stepper data={[
               { step: 1, content: '商品確認', done: true },
               { step: 2, content: '付款資訊', done: false },
               { step: 3, content: '訂單完成', done: false },
             ]}></Stepper>
-         
             {cartData?.carts?.length === 0 ? (
               <>
                 <div className='alert alert-secondary'>還沒有選擇商品喔</div>
@@ -100,115 +118,112 @@ function Cart() {
               </>
             ) : (
               <>
-                <div className="bg-primary  tablePadding table-responsive" style={{ margin: "auto", borderRadius: "30px" }}>
-                  <table className='table table-primary' style={{minWidth:"500px"}}>
-                    <thead className="border-white">
-                      <tr>
-                        <td className="text-white" >購物清單</td>
-                        <td className="text-white" ></td>
-                        <td className="text-white" ></td>
-                        <td className="text-white" ></td>
-                        <td className="text-white" ></td>
-                        <td className="text-white" ></td>
-                      </tr>
-                    </thead>
-                    <tbody className="align-middle border-white">
-                      {cartData?.carts?.map((item) => {
-                        return (
-                          <tr key={item.id}>
-                            <td> <img
-                              src={item.product.imageUrl}
-                              alt=''
-                              className='cart-img'
-                            /></td>
-                            <td className="text-white" >{item.product.title}</td>
-                            <td className="text-white" >{item.color}</td>
-                            <td className="text-white" >{item.size}</td>
-                            <td className="text-white" > <select
-                              name=''
-                              className='form-select'
-                              id=''
-                              value={item.qty}
-                              disabled={loadingItems.includes(item.id)}
-                              onChange={(e) => {
-                                updateCartItem(item, e.target.value * 1);
-                              }}
-                            >
-                              {[...new Array(20)].map((i, num) => {
-                                return (
-                                  <option value={num + 1} key={num}>
-                                    {num + 1}
-                                  </option>
-                                );
-                              })}
-                            </select></td>
-                            <td className="text-white" >NT${item.final_total}
-                              <button
-                                type='button'
-                                className='btn'
-                                onClick={() => {
-                                  removeCartItem(item.id);
-                                }}
-                              >
-                                <i className='bi bi-x-lg'></i>
-                              </button>
-                            </td>
-                          </tr>
-                        )
-                      })
-                      }
-                    </tbody>
-                  </table>
-                  <div className='d-flex align-items-center justify-content-between'>
-                    <label htmlFor='coupon' className='me-3' style={{ color: '#FFFFFF' }}>
-                      折價代碼
-                    </label>
-                    {hascoupon ? (
-                      <p className='text-end text-success fw-bold mb-0'>
-                        已套用優惠券
-                      </p>
-                    ) : (
-                      <div className='input-group w-50'>
-                        <input
-                          type='text'
-                          className='form-control bg-primary text-white  rounded-0 border-bottom border-top-0 border-start-0 border-end-0 shadow-none'
-
-                          placeholder='請輸入折價代碼'
-                          id='coupon'
-                          value={couponCode}
-                          onChange={(e) => setCouponCode(e.target.value)}
-                          aria-label="Recipient's username"
-                          aria-describedby='button-addon2'
-                          disabled={hascoupon}
-                        />
-                        <div className='input-group-append'>
-                          <button
-                            className='btn  border-bottom border-top-0 border-start-0 border-end-0 rounded-0'
-                            type='button'
-                            id='button-addon2'
-                            disabled={hascoupon}
-                            onClick={() => {
-                              sendCoupon();
-                            }}
-                            aria-label='Send Coupon'
-                          >
-                            <i className='bi bi-send-fill text-white'></i>
-                          </button>
-                        </div>
-                        <div
-                          className='text-danger w-100'
-                          style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}
-                        >
-                          {couponMsg}
-                        </div>
-                      </div>
-                    )}
+                <div className="card" style={{ borderColor: '#AD8F7E', borderRadius: '30px' }}>
+                  <div
+                    className="card-header bg-primary text-white tablePadding"
+                    style={{ borderColor: '#AD8F7E', borderTopLeftRadius: '29px', borderTopRightRadius: '29px' }}
+                  >
+                    購物清單
                   </div>
-                  <div className=' mt-3 text-white d-flex justify-content-between'>
-                    <p className='mb-0 h5 fw-bold'>總金額</p>
-                    <p className='mb-0 h5 fw-bold'>NT${cartData.final_total}</p>
+
+                  <div className="card-body tablePadding">
+                    <div className="table-responsive">
+                      <table className="table mb-0" style={{ minWidth: '500px' }}>
+                        <tbody className="align-middle border-white">
+                          {cartData?.carts?.map((item) => (
+                            <tr key={item.id}>
+                              <td className="p-0">
+                                <img src={item.product.imageUrl} alt="" className="cart-img" />
+                              </td>
+                              <td>{item.product.title}</td>
+                              <td>{item.color}</td>
+                              <td>{item.size}</td>
+                              <td>
+                                <select
+                                  name=""
+                                  className="form-select"
+                                  value={item.qty}
+                                  disabled={loadingItems.includes(item.id)}
+                                  onChange={(e) => updateCartItem(item, e.target.value * 1)}
+                                >
+                                  {[...new Array(20)].map((_, num) => (
+                                    <option value={num + 1} key={num}>
+                                      {num + 1}
+                                    </option>
+                                  ))}
+                                </select>
+                              </td>
+                              <td>NT${item.final_total}</td>
+                              <td className="text-end p-0">
+                                <button
+                                  type="button"
+                                  className="btn p-0"
+                                  onClick={() => openDeleteModal(item)}
+                                >
+                                  <i className="bi bi-x-lg"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div
+                    className="card-footer tablePadding border-none"
+                    style={{ background: "#ffffff", borderRadius: "0 0 30px 30px" }}
+                  >
+                    <div className="d-flex align-items-center justify-content-between ">
+                      <label htmlFor="coupon" className="me-3 fw-bold " >
+                        折價代碼
+                      </label>
+                      {hasCoupon ? (
+                        <p className="text-end text-success fw-bold mb-0">已套用優惠券</p>
+                      ) : (
+                        <div className="input-group w-50">
+                          <input
+                            style={{ borderColor: 'black', borderWidth: '0 0 2px 0' }}
+
+                            type="text"
+                            className="form-control rounded-0  border-top-0 border-start-0 border-end-0 shadow-none"
+                            placeholder="請輸入折價代碼"
+                            id="coupon"
+                            value={couponCode}
+                            onChange={(e) => setCouponCode(e.target.value)}
+                            aria-label="Recipient's username"
+                            aria-describedby="button-addon2"
+                            disabled={hasCoupon}
+                          />
+                          <div className="input-group-append">
+                            <button
+                              className="btn btn-primary"
+                              type="button"
+                              id="button-addon2"
+                              disabled={hasCoupon}
+                              onClick={applyCoupon}
+                              aria-label="Send Coupon"
+                            >
+                              <i className="bi bi-send-fill "></i>
+                            </button>
+                          </div>
+                          <div
+                            className="text-danger w-100"
+                            style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}
+                          >
+                            {couponMsg}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="d-flex justify-content-between pt-3">
+                      <p className="fw-bold mb-0">總金額</p>
+                      <p className="fw-bold mb-0">NT${cartData.final_total}</p>
+                    </div>
+
                   </div>
                 </div>
+
                 <div className="d-flex justify-content-center mb-7">
                   <Link
                     to='/checkout'
@@ -225,6 +240,7 @@ function Cart() {
           </div>
         </div>
       </div>
+
 
     </>
   )

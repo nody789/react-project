@@ -1,0 +1,214 @@
+
+.icon-size{
+    font-size: 24px;
+}
+.nav-bg{
+    background-color: rgba(128, 128, 128);
+}
+.navbar-toggler {
+  border: none;
+  outline: none;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+.product-detail{ 
+    img:hover {
+        cursor: pointer;
+        opacity: 0.9;
+    }
+}
+.btn-item{
+    border-radius: 100px;
+}
+
+.btn-item-1{
+  width: 183px;
+  border-radius: 100px;
+  height: 49px;
+}
+.cart-btn{
+  width: 100%;
+  border-radius: 10px;
+  height: 49px;
+}
+
+.product-img-text{
+    background-color: #fff;
+    width: 95%;
+    height: 41%;
+    border-radius: 50px;
+    opacity: .7;
+}
+.borderless tr td {
+    border: none !important;
+    padding: 0px !important;
+}
+input::placeholder {
+    color: #000000 !important;
+  }
+  
+
+
+  hr.new1{
+opacity: 1 !important;
+  color: black !important;
+  }
+  .thead-border{
+    border-bottom: 1px solid #ffffff;
+  }
+  .btn-light {
+    --bs-btn-color: #AD8F7E;
+    --bs-btn-bg: #ffffff;
+    --bs-btn-border-color: #ffffff;
+    --bs-btn-hover-color: #AD8F7E;
+    --bs-btn-hover-bg: #d3d4d5;
+    --bs-btn-hover-border-color: #c6c7c8;
+    --bs-btn-focus-shadow-rgb: 211, 212, 213;
+    --bs-btn-active-color: #AD8F7E;
+    --bs-btn-active-bg: #f8f9fac8;
+    /* --bs-btn-active-border-color: #babbbc; */
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #000;
+    --bs-btn-disabled-bg: #f8f9fa;
+    --bs-btn-disabled-border-color: #f8f9fa;
+}
+
+
+.tablePadding{
+  padding: 40px 0px 40px 60px; 
+}
+
+.product-card {
+  width: 285px;
+}
+
+.product-card img {
+  object-fit: cover;
+  width: 100%;
+}
+.color-button, .size-button {
+  width: 40px; /* 按鈕寬度 */
+  height: 40px; /* 按鈕高度 */
+  border: 2px solid transparent; /* 預設邊框顏色為透明 */
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold; /* 粗體文字 */
+  background-color: white; /* 預設背景色 */
+}
+
+/* 當按鈕被選取時的樣式 */
+.color-button.selected,
+.size-button.selected {
+  border-color: black; /* 被選取時的邊框顏色 (黑色) */
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5); /* 黑色陰影效果 */
+}
+ㄉ
+.hero-section {
+  height: 100vh; 
+  position: relative;
+  overflow: hidden;
+}
+
+
+.carousel-item img {
+  height: 100vh; 
+  object-fit: cover; 
+  object-position: center; 
+}
+
+.navbar-home {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5); 
+  transition: background 0.3s ease;
+  @include media-breakpoint-down(md) { 
+    background: rgba(0, 0, 0, 0.7); /* 在768px以下更深的半透明背景 */
+  }
+
+}
+
+/* Hero text styling */
+.hero-text {
+  position: absolute;
+  top: 45%;
+  color: #ffffff; /* 白色文字 */
+  z-index: 5; /* 确保在轮播图上 */
+}
+
+.storebg{
+  background-image: url("../assets/img/storebg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  }
+  .navbar-nav .nav-link {
+    margin-right: 10px; /* 根據需要調整數值 */
+  }
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 五個等寬欄 */
+  }
+  
+  .category-item img {
+    width: 100%; /* 確保圖片佔滿格子 */
+    height: 400px; /* 設定統一高度 */
+    object-fit: cover; /* 保持比例裁切圖片 */
+  }
+  .category-image {
+    aspect-ratio: 4/3; 
+    object-fit: cover; 
+    display: block;
+  }
+  
+  .category-overlay {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .category-text {
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+  }
+@include media-breakpoint-up(md) {
+  .tablePadding {
+    padding: 40px 60px;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .mb-60 {
+    margin-bottom: 60px;
+  }
+  .navbar-toggler:hover {
+    text-decoration: none;
+}
+.tablePadding {
+  padding: 20px 10px;
+}
+.checkout-item{
+  div:first-child {
+    //數字圈圈
+    position: relative;
+    width: 120x;
+    height: 120px;
+    font-size: 14px;
+  
+  }
+}
+#example-search-input{
+  width: 50%;
+}
+}
+
