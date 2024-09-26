@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSearchParams, useNavigate } from 'react-router-dom'
+import { useSearchParams, useNavigate,Link } from 'react-router-dom'
 import axios from "axios";
 import Loading from "../../components/Loading";
 import ProductsCard from '../../components/ProductsCard';
@@ -68,8 +68,9 @@ function Search() {
               {products.map((product) => {
                 return (
                   <div className="col-md-4 col-6" key={product.id}>
-
-                    <ProductsCard product={product} />
+                    <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                      <ProductsCard product={product} />
+                    </Link>
                   </div>
 
                 )
