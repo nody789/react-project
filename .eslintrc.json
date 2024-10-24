@@ -2,7 +2,7 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true // 添加此项以支持 Node.js 全局变量
+    "node": true
   },
   "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react-hooks/recommended"],
   "parserOptions": {
@@ -14,6 +14,7 @@
   },
   "plugins": ["react", "react-hooks"],
   "rules": {
-    "react/prop-types": ["off"] // 關閉 PropTypes檢查
-}  
+    "react/prop-types": "off", // 關閉 PropTypes檢查
+    "react/react-in-jsx-scope": "off" // 關閉 JSX 中必須導入 React 的規則
+  }
 }

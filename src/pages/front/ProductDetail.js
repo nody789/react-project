@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "axios";
 import { useOutletContext, useParams } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,7 +18,7 @@ function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null)
   const [isLoading, setIsLoading] = useState(false);
-  const { getCart } = useOutletContext();
+  const { getCart,cartData} = useOutletContext();
   const dispatch = useDispatch();
   const [mainImage, setMainImage] = useState();
   const [toggler, setToggler] = useState(false);
@@ -30,11 +30,11 @@ function ProductDetail() {
 
 
   useEffect(() => {
-    // 獲取產品
+      getCart(); // 如果購物車資料是空的，就再獲取一次
+    
     const getProducts = async () => {
       try {
         const productsRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`);
-        // 更新產品信息、主圖像和额外圖像
         setProduct(productsRes.data.product);
         setMainImage(productsRes.data.product.imageUrl);
         setTempImages([productsRes.data.product.imageUrl]);
@@ -70,41 +70,89 @@ function ProductDetail() {
 
     // 调用獲取產品數據的函数
     getProducts();
-  }, [id, dispatch])
+    console.log(cartData)
+  }, [id, dispatch,getCart])
 
   const handleSizeSelect = (size) => {
     setSelectedSize(size); // 更新用戶選擇的尺寸
   };
-  // const handleColorSelect = (color) => {
-  //   setSelectedColor(color)
+
+  // const addToCart = async () => {
+  //   if (selectedSize) {
+  //     const cartItemData = {
+  //       product_id: product.id,
+  //       qty: cartQuantity,
+  //       size: selectedSize,
+  //       color: selectedColor,
+  //     };
+  
+  //     setIsLoading(true);
+  //     try {
+  //       const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, cartItemData)
+  //       //用dispatch 來觸發createAsyncMessage
+  //       dispatch(createAsyncMessage(res.data))
+  //       getCart();
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       setIsLoading(false);
+  //       dispatch(createAsyncMessage(error.response.data));
+  //     }
+  //   } else {
+  //     alert('請選擇尺寸和顏色')
+  //   }
+
   // }
 
   const addToCart = async () => {
-    if (selectedSize) {
-      const data = {
-        data: {
-          product_id: product.id,
-          qty: cartQuantity,
-          size: selectedSize,
-          color: selectedColor,
-        }
-      }
-      setIsLoading(true);
-      try {
-        const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, data)
-        //用dispatch 來觸發createAsyncMessage
-        dispatch(createAsyncMessage(res.data))
-        getCart();
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-        dispatch(createAsyncMessage(error.response.data));
-      }
-    } else {
-      alert('請選擇尺寸和顏色')
+    if (!selectedSize || !selectedColor) {
+      alert('請選擇尺寸和顏色');
+      return;
     }
-
-  }
+  
+    const cartItemData = {
+      product_id: product.id,
+      qty: cartQuantity,
+      size: selectedSize,
+      color: selectedColor,
+      identifier: `${product.id}-${selectedSize}-${selectedColor}` // 唯一標識符
+    };
+  
+    setIsLoading(true);
+    
+    try {
+      console.log("Cart Data:", cartData);
+      console.log("Trying to find existing item with identifier:", cartItemData.identifier);
+  
+      // 檢查購物車中是否已存在相同的項目
+      const existingItem = Array.isArray(cartData) && cartData.find(item =>
+        item.identifier === cartItemData.identifier
+      );
+  
+      if (existingItem) {
+        // 更新數量
+        const updatedQty = existingItem.qty + cartQuantity;
+        await axios.put(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${existingItem.id}`, {
+          data: { qty: updatedQty }
+        });
+      } else {
+        // 新增項目
+        await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, { data: cartItemData });
+      }
+  
+      // 發送成功的消息
+      dispatch(createAsyncMessage({ message: '成功加入購物車', success: true }));
+      getCart(); // 獲取最新的購物車資訊以更新畫面
+    } catch (error) {
+      console.error(error); // 顯示錯誤訊息
+    } finally {
+      setIsLoading(false); // 確保加載狀態被重置
+    }
+  };
+  
+  
+  
+  
+  
   const changeMainImage = (image) => {
     setMainImage(image);
   }
@@ -240,7 +288,7 @@ function ProductDetail() {
                   </button>
                 </div>
               </div>
-              <button type="button" disabled={isLoading} onClick={() => addToCart()} className="btn text-light btn-primary " style={{ height: "42px" }}>
+              <button type="button" disabled={isLoading} onClick={addToCart} className="btn text-light btn-primary " style={{ height: "42px" }}>
                 加入購物車
               </button>
             </div>

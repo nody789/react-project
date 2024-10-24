@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
-import React,{ useEffect } from 'react';
+import { useEffect } from 'react';
 import Login from './pages/Login';
 import Dashboard from './pages/admin/Dashboard';
 import AdminProducts from './pages/admin/AdminProducts';

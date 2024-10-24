@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Stepper from "../../components/Stepper";
 import { createAsyncMessage, } from "../../slice/messageSlice";
@@ -47,6 +47,7 @@ function Success() {
       dispatch(createAsyncMessage({ success: false, message: error.response?.data?.message || '支付失敗' }));
     }
   }
+  
   return (
     <div className='container'>
       <Loading isLoading={isLoading} />

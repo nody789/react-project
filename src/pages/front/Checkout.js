@@ -1,14 +1,14 @@
-import React from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { SelectBox, Input } from '../../components/FormElements';
 import { Textarea } from '../../components/FormElements';
 import Stepper from "../../components/Stepper";
-
 import axios from 'axios';
 
 function Checkout() {
   const navigate = useNavigate();
+  const {  getCart } = useOutletContext();
+
   const {
     register,
     handleSubmit,
@@ -34,12 +34,20 @@ function Checkout() {
 
       }
     }
-    const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/order`, form);
-    navigate(`/success/${res.data.orderId}`)
+    try{
+      const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/order`, form);
+      await getCart();
+      navigate(`/success/${res.data.orderId}`)
+    }catch(error){
+      console.log(error);
+    }
+   
   };
+ 
   return (
 
     <div className='container container-fluid-md'>
+      {/* <Loading isLoading={isLoading} /> */}
       <div className='row justify-content-center'>
         <div className='col-12 col-md-10 col-lg-8' >
           <Stepper data={[

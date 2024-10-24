@@ -1,7 +1,7 @@
 import { useLocation, Link, useSearchParams, useNavigate, NavLink } from 'react-router-dom';
 import imgA from "../stylesheets/image/logo.svg"
 import { useSelector } from 'react-redux';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Collapse } from "bootstrap";
 import axios from 'axios';
 

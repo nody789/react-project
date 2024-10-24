@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Pagination from "../../components/Pagintaion";
 import { Link, useParams, useNavigate, } from "react-router-dom";
@@ -21,18 +21,23 @@ function Products() {
 
   const getProducts = useCallback(
     async (page = 1) => {
-      setIsLoading(true);
-      const filterCategory = category === 'all' ? '' : category;
-      const productRes = await axios.get(
-        `/v2/api/${process.env.REACT_APP_API_PATH
-        }/products?page=${page}&category=${filterCategory}`
-      );
-      if (productRes.data.products.length === 0) {
-        navigate('/products/all');
+      try{
+
+        setIsLoading(true);
+        const filterCategory = category === 'all' ? '' : category;
+        const productRes = await axios.get(
+          `/v2/api/${process.env.REACT_APP_API_PATH
+          }/products?page=${page}&category=${filterCategory}`
+        );
+        if (productRes.data.products.length === 0) {
+          navigate('/products/all');
+        }
+        setProducts(productRes.data.products);
+        setPagination(productRes.data.pagination);
+        setIsLoading(false);
+      }catch(error){
+        console.error("Failed to fetch products or categories", error);
       }
-      setProducts(productRes.data.products);
-      setPagination(productRes.data.pagination);
-      setIsLoading(false);
     },
     [category, navigate]
   );
