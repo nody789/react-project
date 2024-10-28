@@ -161,7 +161,8 @@ function ProductDetail() {
         );
 
         // 在這裡處理成功回應
-        console.log("商品已成功添加至購物車:", res.data);
+        dispatch(createAsyncMessage(res.data))
+        getCart();
       } catch (error) {
         // 在這裡處理錯誤
         console.error("添加至購物車時出錯:", error.response.data);
