@@ -2,7 +2,7 @@ function ProductsCard({ product }) {
   return (
     <>
       <div className="card border-0 mb-4">
-        <img src={product.imageUrl} className="card-img-top rounded-0" alt={product.title} style={{ height: "300px" }} />
+        <img src={product.imageUrl} className="card-img-top " alt={product.title} style={{ height: "300px",borderRadius:"10px" }} />
         <div className="card-body  text-center" style={{ padding: "10px" }}>
           <h4 className="card-text mb-0 fs-5" >{product.title}</h4>
           <div className="d-flex justify-content-center" style={{ marginTop: "10px" }}>

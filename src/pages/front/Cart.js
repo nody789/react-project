@@ -153,7 +153,7 @@ function Cart() {
                                   ))}
                                 </select>
                               </td>
-                              <td>NT${item.final_total}</td>
+                              <td>NT$ {item.final_total}</td>
                               <td className="text-end p-0">
                                 <button
                                   type="button"
@@ -197,7 +197,7 @@ function Cart() {
                           />
                           <div className="input-group-append">
                             <button
-                              className="btn btn-primary"
+                              className="btn"
                               type="button"
                               id="button-addon2"
                               disabled={hasCoupon}

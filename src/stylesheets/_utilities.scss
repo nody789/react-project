@@ -89,25 +89,21 @@ opacity: 1 !important;
   width: 100%;
 }
 .color-button, .size-button {
-  width: 40px; /* 按鈕寬度 */
-  height: 40px; /* 按鈕高度 */
-  border: 2px solid transparent; /* 預設邊框顏色為透明 */
+  width: 40px;
+  height: 40px; 
+  border: 2px solid #ccc; 
+  border-radius: 5px; 
+  background-color:#ffffff;
   cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold; /* 粗體文字 */
-  background-color: white; /* 預設背景色 */
 }
 
-/* 當按鈕被選取時的樣式 */
-.color-button.selected,
-.size-button.selected {
-  border-color: black; /* 被選取時的邊框顏色 (黑色) */
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5); /* 黑色陰影效果 */
+
+
+.size-button.selected,.color-button.selected{
+  border-color: #AD8F7E; /* 使用主色調作為被選取時的邊框顏色 */
+  background-color: #e7f0ff; /* 被選取時的背景顏色 */
 }
-ㄉ
+
 .hero-section {
   height: 100vh; 
   position: relative;
