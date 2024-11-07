@@ -136,8 +136,8 @@ function Cart() {
     const updatedItem = {
       ...item,
       variants: updatedVariants,
-      total: updatedTotal, // 更新后的总价
-      qty: updatedQuantity, // 更新后的总数量
+      total: updatedTotal,
+      qty: updatedQuantity, 
     };
   
     setLoadingItems([...loadingItems, item.id]);
@@ -215,9 +215,8 @@ function Cart() {
                                       value={variant.num}
                                       disabled={loadingItems.includes(item.id)}
                                       onChange={(e) => {
-                                        const newVariantNum = parseInt(e.target.value); // 获取新选择的数量
-                                        console.log("Selected quantity:", newVariantNum); // 打印选中的数量
-                                        updateCartItem(item, variant.id, newVariantNum); // 调用 updateCartItem 更新购物车
+                                        const newVariantNum = parseInt(e.target.value);
+                                        updateCartItem(item, variant.id, newVariantNum); 
                                       }}
                                     >
                                       {[...new Array(20)].map((_, num) => (

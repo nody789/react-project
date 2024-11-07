@@ -134,12 +134,9 @@ function ProductDetail() {
           `/v2/api/${process.env.REACT_APP_API_PATH}/cart`,
           { data: cartItemData }
         );
-
-        // 在這裡處理成功回應
         dispatch(createAsyncMessage(res.data))
         getCart();
       } catch (error) {
-        // 在這裡處理錯誤
         console.error("添加至購物車時出錯:", error.response.data);
       }
     } else {
@@ -167,9 +164,6 @@ function ProductDetail() {
       <div className="container-lg">
         <Loading isLoading={isLoading} />
         <div className="row justify-content-between mt-6">
-          {/* <div className="col-sm-12 col-md-2 order-md-0 order-sm-2 order-2">
-           
-          </div> */}
           <div className="product-detail col-md-6 p-0 col-sm-12 order-md-1 order-sm-1 order-1  m-0">
 
             <div
