@@ -85,31 +85,7 @@ function ProductDetail() {
     setSelectedColor(color)
     // 這裡可以進行顏色選擇的處理
   };
-  // const addToCart = async () => {
-  //   if (selectedSize) {
-  //     const cartItemData = {
-  //       product_id: product.id,
-  //       qty: cartQuantity,
-  //       size: selectedSize,
-  //       color: selectedColor,
-  //     };
-
-  //     setIsLoading(true);
-  //     try {
-  //       const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`,{ data: cartItemData})
-  //       //用dispatch 來觸發createAsyncMessage
-  //       dispatch(createAsyncMessage(res.data))
-  //       getCart();
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       setIsLoading(false);
-  //       dispatch(createAsyncMessage(error.response.data));
-  //     }
-  //   } else {
-  //     alert('請選擇尺寸和顏色')
-  //   }
-
-  // }
+  
   const addToCart = async () => {
     if (selectedSize && selectedColor) {
       const newVariantId = `${selectedColor}-${selectedSize}`;
@@ -117,14 +93,13 @@ function ProductDetail() {
         id: newVariantId,
         color: selectedColor,
         size: selectedSize,
-        num: 1,
+        num: cartQuantity,
       };
 
       // 確保 cartData 是一個陣列，然後執行查找
-      const existingCartItem = Array.isArray(cartData) 
-        ? cartData.find(item => item.product_id === product.id) 
-        : null;
-
+      const existingCartItem = Array.isArray(cartData.carts) 
+      ? cartData.carts.find(item => item.product_id === product.id) 
+      : null;
       let updatedVariants = [];
 
       if (existingCartItem) {
@@ -134,7 +109,7 @@ function ProductDetail() {
           // 如果變體已存在，則增加數量
           updatedVariants = existingCartItem.variants.map(variant =>
             variant.id === newVariantId
-              ? { ...variant, num: variant.num + 1 } // 更新數量
+              ? { ...variant, num: variant.num + cartQuantity} // 更新數量
               : variant
           );
         } else {

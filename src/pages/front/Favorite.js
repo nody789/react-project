@@ -24,7 +24,7 @@ function Favorite() {
       data: {
         product_id: product.id,
         qty: 1,
-
+        
       }
     }
     setIsLoading(true);
